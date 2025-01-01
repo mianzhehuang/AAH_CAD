@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # Title for the dashboard
-st.title("Alliance Animal Health Competitor Analysis")
+st.title("Alliance Animal Health Competitive Analysis")
 
 # Define options and their availability
 options = {
