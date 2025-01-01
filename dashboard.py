@@ -13,7 +13,7 @@ import plotly.express as px
 
 # Set Streamlit page configuration
 st.set_page_config(
-    page_title="Alliance Animal Health Competitor Analysis",
+    page_title="Alliance Animal Health Competitive Analysis",
     layout="wide",  # Makes the dashboard use the full width of the screen
     initial_sidebar_state="expanded"  # Expands the sidebar by default
 )
