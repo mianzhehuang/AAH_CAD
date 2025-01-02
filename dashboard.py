@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # Title for the dashboard
-st.title("Alliance Animal Health Competitive Analysis")
+st.title("Alliance Animal Health Competitive Analysis Dashboard [Prototype]")
 
 # Define options and their availability
 options = {
@@ -33,25 +33,119 @@ options = {
 
 # Create a list of display names for the selectbox
 display_options = [
-    f"{name} (Data Unavailable)" if not available else name
+    f"(Unavailable) {name}" if not available else name
     for name, available in options.items()
 ]
 
-# Create the selectbox with all options
-selected_display_option = st.sidebar.selectbox("Select Competitor", display_options)
+# Add the competitor selection dropdown
+selected_display_option = st.sidebar.selectbox("Select a competitor for benchmarking Alliance Animal Health", display_options)
+
+# Add the note in red
+st.sidebar.markdown(
+    """
+    <span style="color:red;"><strong>Note:</strong> [Prototype] version ONLY incorporates Veterinary Practice Partner data for demonstration purposes.</span>
+    """,
+    unsafe_allow_html=True
+)
+
+# Custom CSS for Font Size
+st.markdown(
+    """
+    <style>
+    .custom-font {
+        font-size: 21px;
+        line-height: 1.6; /* Adjust line spacing for better readability */
+    }
+    .custom-font ul {
+        margin-left: 20px; /* Indent the bullet points */
+    }
+    .custom-font li {
+        font-size: 21px; /* Ensure list items inherit the font size */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Dashboard Purpose and Insights
+st.markdown("### Section I. Dashboard purpose and insights")
+st.markdown(
+    """
+    <div class="custom-font">
+    This dashboard is designed to provide actionable 
+    insights for strategic decision-making by evaluating Alliance Animal Health's competitive position 
+    within the veterinary services market. By leveraging advanced AI-driven tools and techniques, the dashboard 
+    consolidates critical data, such as geographic presence, customer reviews, accreditation statuses, 
+    and regional demographics.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown("#### With this dashboard, users can:")
+st.markdown(
+    """
+    <div class="custom-font">
+    <ul>
+        <li><strong>Understand Competitive Dynamics</strong>: Analyze Alliance's strengths and weaknesses compared to key competitors in 
+            various regions across the United States.</li>
+        <li><strong>Identify Opportunities</strong>: Uncover underserved markets, customer pain points, and areas for operational improvements.</li>
+        <li><strong>Visualize Strategies</strong>: Gain a regional perspective on performance metrics and strategic priorities.</li>
+        <li><strong>Enhance Decision-Making</strong>: Use AI-driven insights from customer reviews to recommend strategies for boosting 
+            customer satisfaction and efficiency.</li>
+    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <div class="custom-font">
+    This tool ultimately aims to support Alliance Animal Health in capturing more market share, addressing sector 
+    complexities, and driving value creation through targeted, data-backed initiatives.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown("---") 
+
+# Metrics
+st.markdown("### Section II. Visualization of   Alliance's performance metrics to identify underserved regions and drive strategic improvement")
+
+st.markdown("#### Guidance:")
+# st.markdown(
+#     """
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across the United States.</li>
+#         <li><strong>Regional Segmentation</strong>: The second menu divides the U.S. map into <u>9</u> distinct regions, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
+#         <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
+#     </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+st.markdown(
+    """
+    <div class="custom-font">
+    <ul>
+        <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across U.S. <strong><span style="color:red;"> Note: [Prototype] version ONLY incorporates Veterinary Practice Partner data for demonstration purposes.</span></strong></li>
+        <li><strong>Regional Segmentation</strong>: The second menu divides the U.S. map into <u>9</u> distinct regions, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
+        <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
+    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 # Map the selected display option back to the original option name
-selected_option = selected_display_option.replace(" (Data Unavailable)", "")
+selected_option = selected_display_option.replace("(Unavailable) ", "")
 
-# Check if the selected option has data available
-if options[selected_option]:
-    st.write(f"Displaying data for {selected_option}")
-else:
-    st.warning(f"Data for {selected_option} is currently unavailable.")
-# Add reference link
-st.sidebar.markdown(
-    "**Reference:** [Alliance Animal Health Competitor Information](https://compworth.com/company/alliance-animal-health)"
-)
 
 # Dropdown Menu for Region Selection
 st.sidebar.header("Region Level Comparison")
@@ -118,6 +212,31 @@ st.sidebar.markdown(
 )
 
 
+st.markdown("#### Key Takeaways:")
+
+#if selected_region=="All":
+st.markdown(
+    f"""
+    <div class="custom-font">
+    <ul>
+        <li><strong>Underserved Regions</strong>: Compared to {selected_option}, Alliance is underserved in the <u>Mid-Atlantic region (New York, New Jersey, Pennsylvania)</u> and <u>Pacific especially California</u>. These areas feature high population densities, with urban centers showing elevated demand for <u>specialized veterinary care</u>.</li>
+        <li><strong>Competitive Regions</strong>: Compared to {selected_option}, Alliance is competitive in the <u>Middle South regions</u>, which are less densely populated but primarily focused on livestock care.</li>       
+        <li><strong>Strategic Improvements</strong>: To better compete with {selected_option}, Alliance should expand its presence in the densely populated Mid-Atlantic region and increase the number of accredited hospitals to meet the growing demand for specialized veterinary care. In California, Alliance needs to focus on enhancing customer experience, as its Google rating is significantly lower than that of {selected_option} (3.92 vs 4.62).</li>
+    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Check if the selected option has data available
+if options[selected_option]:
+    st.write(f"Displaying data for Alliance Animal Health and {selected_option}")
+else:
+    st.warning(f"Data for {selected_option} is currently unavailable.")
+# Add reference link
+st.sidebar.markdown(
+    "**Reference:** [Alliance Animal Health Competitor Information](https://compworth.com/company/alliance-animal-health)"
+)
 
 # Load data
 us_density = pd.read_excel("us_density.xlsx")  # Ensure it has latitude, longitude, and density_category
@@ -140,6 +259,7 @@ vet_reviews_details = pd.read_pickle(r"vet_reviews_details.pkl")
 
 # Normalize the density values for visualization
 us_density["normalized_density"] = np.log1p(us_density["density_category"])
+
 
 # Create the base map
 fig = go.Figure()
@@ -215,6 +335,8 @@ if selected_option == "Veterinary Practice Partners":
             name=selected_option,
         )
     )
+    
+    
 
 # Update map layout
 fig.update_layout(
@@ -226,7 +348,7 @@ fig.update_layout(
         showocean=False,    # Optional: Disable ocean
     ),
     title={
-        "text": "US Veterinary Practitioners Presence based on Population Density",
+        "text": "US Veterinary Hospitals Presence based on Population Density",
         "x": 0.5,  # Center title
         "xanchor": "center",
         "yanchor": "top",
@@ -310,8 +432,6 @@ comp_vets_filtered = (
 )
 
 
-# Create Columns for Side-by-Side Layout
-st.markdown("---")  # Optional horizontal rule for separation
 col1, col2 = st.columns(2)
 
 with col1:
@@ -332,6 +452,10 @@ total_practitioners_aa = int(vets_sum.loc[
     vets_sum["Region"] == selected_region, "Veterinary Partner Name"
 ].values[0])
 
+total_accredited_aa_details = vets_filtered[(vets_filtered["AAHA Accreditation Status"] == "Yes")]
+total_accredited_aa = len(total_accredited_aa_details)
+
+
 # 2. Overall Rating / Total Reviews
 rating_aa = vets_sum.loc[vets_sum["Region"] == selected_region, "Rating"].values[0]
 total_reviews_aa = vets_sum.loc[
@@ -342,12 +466,91 @@ total_reviews_aa = vets_sum.loc[
 total_reviews_aa_formatted = f"{int(total_reviews_aa):,}"
 with col1:
     # Display the Information
-    st.markdown(f"### Total Practitioners #: {total_practitioners_aa}")
+    st.markdown(f"### Total Hospitals #: {total_practitioners_aa}")
+    st.markdown(f"### Accredited Hospitals #: {total_accredited_aa}")
     st.markdown(
-        f"### Rating / Reviews: {rating_aa:.2f} / {total_reviews_aa_formatted}"
+        f"### Google Rating / Reviews: {rating_aa:.2f} / {total_reviews_aa_formatted}"
+    )
+
+# 1. # Total Practitioners
+total_practitioners_comp = comp_vets_sum.loc[
+    comp_vets_sum["Region"] == selected_region, "Veterinary Partner Name"
+].values[0]
+
+total_accredited_comp_details = comp_vets_filtered[(comp_vets_filtered["AAHA Accreditation Status"] == "Yes")]
+total_accredited_comp = len(total_accredited_comp_details)
+
+# 2. Overall Rating / Total Reviews
+rating_comp = comp_vets_sum.loc[
+    comp_vets_sum["Region"] == selected_region, "Rating"
+].values[0]
+total_reviews_comp = comp_vets_sum.loc[
+    comp_vets_sum["Region"] == selected_region, "Total Ratings #"
+].values[0]
+
+# Format total_reviews_comp with commas
+total_reviews_comp_formatted = f"{int(total_reviews_comp):,}"
+
+with col2:
+    # Display the Information
+    st.markdown(f"### {total_practitioners_comp}")
+    st.markdown(f"### {total_accredited_comp}")    
+    st.markdown(
+        f"### {rating_comp:.2f} / {total_reviews_comp_formatted}"
     )
 
 
+st.markdown(f"### Rank all these {total_practitioners_aa} + {total_practitioners_comp} hospitals into 4 categories based on two criteria:")
+# st.markdown(
+#     """
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Criteria 1</strong>: The hospital is rated above top 50% among all the hospitals of Alliance and the selected competitor.</li>
+#         <li><strong>Crtieria 2</strong>: The hospital has AAHA (American Animal Hospital Association) accreditation.</li>       
+#         <li><strong>4 Categories</strong>: Tier 1 - the hospital meets both criterias; Tier 2 - ONLY meet Criteria 1; Tier 3- ONLY meet Crtieria 2; Tier 4 - Fails neither criterias.</li>
+#     </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+st.markdown(
+    """
+    <div class="custom-font">
+    <ul>
+        <li><strong>Criteria 1</strong>: The hospital has a Google rating, based on at least 100 reviews, ranking in the top 50% among all hospitals within Alliance and the selected competitor.</li>
+        <li><strong>Criteria 2</strong>: The hospital holds accreditation from the AAHA (American Animal Hospital Association).</li>       
+        <li><strong>4 Categories</strong>: <strong>Tier 1</strong> - Meets both Criteria 1 and Criteria 2; <strong>Tier 2</strong> - Meets only Criteria 1; <strong>Tier 3</strong> - Meets only Criteria 2; <strong>Tier 4</strong> - Does not meet either criterion.</li>
+    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# st.markdown(
+#     """
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Criteria 1</strong>: The hospital has a Google rating, based on at least 100 reviews, ranking in the top 50% among all hospitals within Alliance and the selected competitor.</li>
+#         <li><strong>Criteria 2</strong>: The hospital holds accreditation from the AAHA (American Animal Hospital Association).</li>       
+#         <li><strong>4 Categories</strong>: 
+#             <ul>
+#                 <li><strong>Tier 1</strong>: Meets both Criteria 1 and Criteria 2.</li>
+#                 <li><strong>Tier 2</strong>: Meets only Criteria 1.</li>
+#                 <li><strong>Tier 3</strong>: Meets only Criteria 2.</li>
+#                 <li><strong>Tier 4</strong>: Does not meet either criterion.</li>
+#             </ul>
+#         </li>
+#     </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )    
+    
+st.markdown("**Reference:** [AAHA (American Animal Hospital Association) Accreditation.](https://www.aaha.org/for-pet-parents/find-an-aaha-hospital/) The only organization that accredits veterinary practices in the US and CA based on rigorous quality standards")
+
+# Create Columns for Side-by-Side Layout
+col3, col4 = st.columns(2)
 # 3. Piechart for Alliance Animal Health Practitioners
 if not vets_filtered.empty:
     vets_filtered = vets_filtered[["Veterinary Partner Name", "Location", "Rating","Top50%", "Total Ratings #", "AAHA Accreditation Status"]]
@@ -400,10 +603,15 @@ if not vets_filtered.empty:
     total_aa = len(vets_filtered)
     pie_data_aa = {
         "Category": [
-            "Top50% & AAHA Accredited",
-            "Top50% & Not AAHA Accredited",
-            "Bottom50% & AAHA Accredited",
-            "Bottom50% & Not AAHA Accredited",
+            #"Top50% & AAHA Accredited",
+            #"Top50% & Not AAHA Accredited",
+            #"Bottom50% & AAHA Accredited",
+            #"Bottom50% & Not AAHA Accredited",
+            "Tier 1",
+            "Tier 2",
+            "Tier 3",
+            "Tier 4",
+            
         ],
         "Count": [top50_aa_aa, top50_aa_no, bottom50_aa_aa, bottom50_aa_no],
         "Percentage": [
@@ -416,7 +624,7 @@ if not vets_filtered.empty:
     }    
 
     # Alliance Animal Health Practitioner Ratings Breakdown
-    with col1:
+    with col3:
         #st.subheader("Alliance Animal Health Practitioner Ratings")
         # Create the pie chart with explicit category order
         pie_fig_aa = px.pie(
@@ -425,50 +633,24 @@ if not vets_filtered.empty:
             values="Count",
             color="Category",
             color_discrete_map={
-                "Top50% & AAHA Accredited": "darkblue",
-                "Top50% & Not AAHA Accredited": "blue",
-                "Bottom50% & AAHA Accredited": "lightblue",
-                "Bottom50% & Not AAHA Accredited": "white",
+                "Tier 1": "darkblue",
+                "Tier 2": "blue",
+                "Tier 3": "lightblue",
+                "Tier 4": "white",
             },
-            title="Ratings & Accreditation Breakdown",
+            #title="Ratings & Accreditation Breakdown",
             category_orders={
                 "Category": [
-                    "Top50% & AAHA Accredited",
-                    "Top50% & Not AAHA Accredited",
-                    "Bottom50% & AAHA Accredited",
-                    "Bottom50% & Not AAHA Accredited",
+                    "Tier 1",
+                    "Tier 2",
+                    "Tier 3",
+                    "Tier 4",
                 ]
             },
         )
         st.plotly_chart(pie_fig_aa, use_container_width=True)
 else:
     details_mapping = np.nan
-
-
-
-        
-# 1. # Total Practitioners
-total_practitioners_comp = comp_vets_sum.loc[
-    comp_vets_sum["Region"] == selected_region, "Veterinary Partner Name"
-].values[0]
-
-# 2. Overall Rating / Total Reviews
-rating_comp = comp_vets_sum.loc[
-    comp_vets_sum["Region"] == selected_region, "Rating"
-].values[0]
-total_reviews_comp = comp_vets_sum.loc[
-    comp_vets_sum["Region"] == selected_region, "Total Ratings #"
-].values[0]
-
-# Format total_reviews_comp with commas
-total_reviews_comp_formatted = f"{int(total_reviews_comp):,}"
-
-with col2:
-    # Display the Information
-    st.markdown(f"### {total_practitioners_comp}")
-    st.markdown(
-        f"### {rating_comp:.2f} / {total_reviews_comp_formatted}"
-    )
 
 # 3. Piechart for Competitor Practitioners
 if not comp_vets_filtered.empty:
@@ -536,7 +718,7 @@ if not comp_vets_filtered.empty:
     
     # Competitor Practitioner Ratings Breakdown
     
-    with col2:
+    with col4:
         # Create the pie chart with explicit category order
         pie_fig_comp = px.pie(
             pie_data_comp,
@@ -549,7 +731,7 @@ if not comp_vets_filtered.empty:
                 "Bottom50% & AAHA Accredited": "lightblue",
                 "Bottom50% & Not AAHA Accredited": "white",
             },
-            title="Ratings & Accreditation Breakdown",
+            #title="Ratings & Accreditation Breakdown",
             category_orders={
                 "Category": [
                     "Top50% & AAHA Accredited",
@@ -565,6 +747,12 @@ if not comp_vets_filtered.empty:
 else:
     details_mapping_comp = np.nan
 
+# Create Columns for Side-by-Side Layout
+st.markdown("---")  # Optional horizontal rule for separation
+
+# AI Analysis
+st.markdown("### Section III. OpenAI analysis of 100K+ reviews with improvement recommendations for Alliance vs. Competitor")
+
 
 vets_reviews_region_sum = pd.read_pickle(r"vets_reviews_region_sum.pkl")
 filtered_df = vets_reviews_region_sum[vets_reviews_region_sum['Region']==selected_region]
@@ -575,7 +763,8 @@ if not filtered_df.empty:
     row = filtered_df.iloc[0]
     
     # Display the details using markdown
-    st.markdown(f"### Based on customer reviews, is Alliance Animal Health better or worse than {selected_option}?")
+    #st.markdown(f"#### Based on customer reviews, is Alliance Animal Health better or worse than {selected_option}?")
+    st.markdown(f"#### OpenAI compares {total_reviews_aa_formatted} Google customer reviews of Alliance with {total_reviews_comp_formatted} reviews of {selected_option}, focusing on four key aspects:")
     me_judge, par, me_reason =  row['Medical Expertise'].partition('.')
     # Determine the color based on the value of me_judge
     if me_judge.strip() == "Worse":
@@ -642,24 +831,51 @@ else:
     st.error("The selected region does not exist in the data.")
 
 
-st.markdown("**Reference:** [AAHA (American Animal Hospital Association) Accreditation.](https://www.aaha.org/for-pet-parents/find-an-aaha-hospital/) The only organization that accredits veterinary practices in the US and CA based on rigorous quality standards")
 
 st.markdown("---")  # Optional horizontal rule for separation
     
 
-# Create Columns for Side-by-Side Layout
-col3, col4 = st.columns(2)
+# AI Analysis
+st.markdown("### Section IV: Deep-dive into individual hospital details with AI-driven insights from customer reviews")
 
+st.markdown("#### Guidance:")
+st.markdown(
+    """
+    <div class="custom-font">
+    <ul>
+        <li><strong>Review Individual Hospitals</strong>: Review and locate hospitals based on specific criteria, such as sorting by the lowest ratings.</li>        
+        <li><strong>Search Hospitals</strong>: Enter the name of the veterinary hospital you wish to investigate in the "Veterinary Hospital Search" box. The search supports fuzzy matching, so entering just the first few words of the name is sufficient. You can then select the exact hospital name from the dropdown menu below the search box.</li>       
+        <li><strong>Get Actionable Insights</strong>: The AI analyzes all customer reviews for the selected hospital, extracting key information such as common complaints, doctors associated with issues, recommendations, and doctors receiving praise.</li>    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+# Create Columns for Side-by-Side Layout
+col5, col6 = st.columns(2)
+
+tier_map = {"All":"All", 
+            "Tier 1":"Top50% & AAHA Accredited",
+            "Tier 2": "Top50% & Not AAHA Accredited",
+            "Tier 3": "Bottom50% & AAHA Accredited",
+            "Tier 4": "Bottom50% & Not AAHA Accredited"}
 
 
 if not pd.isna(details_mapping):
-    with col3:    
+    with col5: 
+        # Left-Hand Side Box: Alliance Animal Health Practitioners
+        st.markdown(
+            "<h2 style='color: orange;'>Alliance Animal Health</h2>",
+            unsafe_allow_html=True
+        )
         # Ensure session state is initialized
         if "selected_category" not in st.session_state:
             st.session_state["selected_category"] = None
         # Simulate click interaction
         selected_category = st.selectbox(
-            "Select a Category to View Details:",
+            "Filter by Tiers to View Details:",
             options=["All",]+pie_data_aa["Category"], 
             key="category_selectbox"
         )
@@ -670,18 +886,22 @@ if not pd.isna(details_mapping):
         if (st.session_state["selected_category"]):
             category = st.session_state["selected_category"]
             st.write(f"Details for {category}:")
-            df_aa = details_mapping[category]
+            df_aa = details_mapping[tier_map[category]]
             st.dataframe(df_aa)
 
 if not pd.isna(details_mapping_comp):    
-    with col4:  
+    with col6:  
+        st.markdown(
+            "<h2 style='color: purple;'>"+selected_option+"</h2>",
+            unsafe_allow_html=True
+        )    
         # Ensure session state is initialized
         if "comp_selected_category" not in st.session_state:
             st.session_state["comp_selected_category"] = None
         # Simulate click interaction
         comp_selected_category = st.selectbox(
-            "Select a Category to View Details:",
-            options=["All",]+pie_data_comp["Category"],
+            "Filter by Tiers to View Details:",
+            options=["All", "Tier 1", "Tier 2", "Tier 3", "Tier 4"],#["All",]+pie_data_comp["Category"],
             key="comp_category_selectbox"
         )
         # Update session state
@@ -691,15 +911,15 @@ if not pd.isna(details_mapping_comp):
         if (st.session_state["selected_category"]):
             category = st.session_state["selected_category"]
             st.write(f"Details for {category}:")
-            st.dataframe(details_mapping_comp[category])
+            st.dataframe(details_mapping_comp[tier_map[category]])
 
 # Example data
 vet_reviews_details.rename(columns={"Hospital":"Veterinary Partner Name"},inplace=True)
 # Search Functionality
-st.header("Veterinary Partner Search")
+st.markdown("#### Veterinary Hospital Search")
 
 # Auto-suggestion search box
-search_input = st.text_input("Search Veterinary Partner Name", value="", placeholder="Start typing to search...")
+search_input = st.text_input("Fuzzy-Search Veterinary Hospital Name", value="", placeholder="Start typing to search. Just the first few words of the name is sufficient...")
 
 # Filter potential matches based on input
 matching_names = vet_reviews_details[
@@ -707,13 +927,31 @@ matching_names = vet_reviews_details[
 ]["Veterinary Partner Name"].tolist()
 
 # Dropdown to select from matching results
-selected_name = st.selectbox("Select a Veterinary Partner", options=matching_names if matching_names else ["No matches found"])
+#selected_name = st.selectbox("Select the exact hospital name from the dropdown menu", options=matching_names if matching_names else ["No matches found"])
+# Define the default selection
+default_selection = "Affordable Animal Hospital-Compton, Compton, CA"
+
+# Check if the default selection is in the list of matching names
+if default_selection in matching_names:
+    selected_name = st.selectbox(
+        "Select the exact hospital name from the dropdown menu",
+        options=matching_names if matching_names else ["No matches found"],
+        index=matching_names.index(default_selection)
+    )
+else:
+    selected_name = st.selectbox(
+        "Select the exact hospital name from the dropdown menu",
+        options=matching_names if matching_names else ["No matches found"]
+    )
+
+
 
 # Display details as markdown when a selection is made
 if selected_name and selected_name != "No matches found":
-    selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
+    #selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
+    selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == default_selection].iloc[0]
     st.markdown(f"""
-        ### Details for {selected_details['Veterinary Partner Name']}
+        ### OpenAI has extracted key insights from customer reviews for {selected_details['Veterinary Partner Name']}:
         <ul>
             <li><strong style="font-size:21px;">Key Complaints:</strong> <span style="font-size:21px;">{selected_details['Key Complaints']}</span></li>
             <li><strong style="font-size:21px;">Doctors with Complaints:</strong> <span style="font-size:21px;">{selected_details['Doctors with Complaints']}</span></li>
