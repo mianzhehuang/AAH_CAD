@@ -329,7 +329,7 @@ st.markdown(
 # Load data
 us_density = pd.read_excel("us_density.xlsx")  # Ensure it has latitude, longitude, and density_category
 aa_partners = pd.read_excel("vets_partners_aa_google_reviews.xlsx")  # Ensure correct columns
-vet_reviews_details = pd.read_pickle(r"vet_reviews_details.pkl")
+vet_reviews_details = pd.read_pickle(r"vet_reviews_details_v2.pkl")
 
 # Cache data loading
 # @st.cache_data
