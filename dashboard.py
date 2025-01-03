@@ -68,7 +68,7 @@ st.markdown(
 )
 
 # Dashboard Purpose and Insights
-st.markdown("### Section I. Dashboard purpose and insights")
+st.markdown("### Section I. Dashboard purpose and strategic objectives")
 st.markdown(
     """
     <div class="custom-font">
@@ -111,41 +111,79 @@ st.markdown(
 
 st.markdown("---") 
 
-# Metrics
-st.markdown("### Section II. Visualization of   Alliance's performance metrics to identify underserved regions and drive strategic improvement")
+# Data Pipeline
+st.markdown("### Section II. Build an AI-driven data pipeline for competitive insights")
 
-st.markdown("#### Guidance:")
-# st.markdown(
-#     """
-#     <div class="custom-font">
-#     <ul>
-#         <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across the United States.</li>
-#         <li><strong>Regional Segmentation</strong>: The second menu divides the U.S. map into <u>9</u> distinct regions, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
-#         <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
-#     </ul>
-#     </div>
-#     """,
-#     unsafe_allow_html=True
-# )
-
+# Content
 st.markdown(
     """
     <div class="custom-font">
+    Rich public datasets, such as customer reviews and hospital locations, provide opportunities for AI-driven insights. 
+    However, much of this data is unstructured, requiring sophisticated tools and techniques for extraction and transformation.</br>
+    To address this challenge, a data pipeline was designed leveraging web scraping AI tools like 
+    <strong>FireCrawl</strong>, <strong>JINA AI</strong>, and <strong>Instant Data Scraper</strong> for data extraction. 
+    Data transformation is handled using <strong>Python</strong>, <strong>LangChain</strong>, and <strong>OpenAI</strong>, 
+    with all processed data stored in <strong>Google BigQuery</strong>. The pipeline operates on a monthly schedule to ensure timely updates.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Data Highlights
+st.markdown(
+    """
+    <div class="custom-font">
+    <strong>Data Warehouse Highlights:</strong>
     <ul>
-        <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across U.S. <strong><span style="color:red;"> Note: [Prototype] version ONLY incorporates Veterinary Practice Partner data for demonstration purposes.</span></strong></li>
-        <li><strong>Regional Segmentation</strong>: The second menu divides the U.S. map into <u>9</u> distinct regions, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
-        <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
+        <li><strong>350+ Veterinary Hospitals</strong>: Includes hospital names and locations.</li>
+        <li><strong>100K+ Google Customer Reviews</strong>: Comprehensive review data for each hospital.</li>
+        <li><strong>Review Analysis</strong>: Extracted and summarized insights at both hospital and regional levels.</li>
     </ul>
     </div>
     """,
     unsafe_allow_html=True
 )
 
+# Insert a PNG file
+st.markdown(
+    """
+    <style>
+    .centered-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Centralized title
+st.markdown(
+    """
+    <div class="centered-title">
+    Data Pipeline Diagram
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.image("etl_vet_hospitals.drawio.png", use_column_width=True) #caption="Data Pipeline Diagram",
+
+
+st.markdown("---") 
+
+# Metrics
+st.markdown("### Section III. Visualize Alliance's performance metrics to uncover underserved regions and drive improvement")
 
 
 # Map the selected display option back to the original option name
 selected_option = selected_display_option.replace("(Unavailable) ", "")
 
+# Add reference link
+st.sidebar.markdown(
+    "**Reference:** [Alliance Animal Health Competitor Information](https://compworth.com/company/alliance-animal-health)"
+)
 
 # Dropdown Menu for Region Selection
 st.sidebar.header("Region Level Comparison")
@@ -212,7 +250,8 @@ st.sidebar.markdown(
 )
 
 
-st.markdown("#### Key Takeaways:")
+
+st.markdown("#### Key takeaways upon reviewing this section:")
 
 #if selected_region=="All":
 st.markdown(
@@ -221,22 +260,71 @@ st.markdown(
     <ul>
         <li><strong>Underserved Regions</strong>: Compared to {selected_option}, Alliance is underserved in the <u>Mid-Atlantic region (New York, New Jersey, Pennsylvania)</u> and <u>Pacific especially California</u>. These areas feature high population densities, with urban centers showing elevated demand for <u>specialized veterinary care</u>.</li>
         <li><strong>Competitive Regions</strong>: Compared to {selected_option}, Alliance is competitive in the <u>Middle South regions</u>, which are less densely populated but primarily focused on livestock care.</li>       
-        <li><strong>Strategic Improvements</strong>: To better compete with {selected_option}, Alliance should expand its presence in the densely populated Mid-Atlantic region and increase the number of accredited hospitals to meet the growing demand for specialized veterinary care. In California, Alliance needs to focus on enhancing customer experience, as its Google rating is significantly lower than that of {selected_option} (3.92 vs 4.62).</li>
+        <li><strong>Strategic Improvements</strong>: 
+            To better compete with {selected_option}, the following actions for Alliance are recommended:
+            <ul>
+                <li><strong>Mid-Atlantic Region:</strong>
+                    <ul>
+                        <li>Expand its presence in densely populated areas to address underserved markets.</li>
+                        <li>Increase the number of accredited hospitals to meet the growing demand for specialized veterinary care.</li>
+                    </ul>
+                </li>
+                <li><strong>California:</strong>
+                    <ul>
+                        <li>Enhance customer experience by addressing substantially lower Google ratings compared to {selected_option} (3.92 vs 4.62).</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
     </ul>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-# Check if the selected option has data available
-if options[selected_option]:
-    st.write(f"Displaying data for Alliance Animal Health and {selected_option}")
-else:
-    st.warning(f"Data for {selected_option} is currently unavailable.")
-# Add reference link
-st.sidebar.markdown(
-    "**Reference:** [Alliance Animal Health Competitor Information](https://compworth.com/company/alliance-animal-health)"
+# st.markdown(
+#     f"""
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Underserved Regions</strong>: Compared to {selected_option}, Alliance is underserved in the <u>Mid-Atlantic region (New York, New Jersey, Pennsylvania)</u> and <u>Pacific especially California</u>. These areas feature high population densities, with urban centers showing elevated demand for <u>specialized veterinary care</u>.</li>
+#         <li><strong>Competitive Regions</strong>: Compared to {selected_option}, Alliance is competitive in the <u>Middle South regions</u>, which are less densely populated but primarily focused on livestock care.</li>       
+#         <li><strong>Strategic Improvements</strong>: To better compete with {selected_option}, Alliance should expand its presence in the densely populated Mid-Atlantic region and increase the number of accredited hospitals to meet the growing demand for specialized veterinary care. In California, Alliance needs to focus on enhancing customer experience, as its Google rating is significantly lower than that of {selected_option} (3.92 vs 4.62).</li>
+#     </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+
+st.markdown("#### User guide for this section:")
+# st.markdown(
+#     """
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across the United States.</li>
+#         <li><strong>Regional Segmentation</strong>: The second menu divides the U.S. map into <u>9</u> distinct regions, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
+#         <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
+#     </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+st.markdown(
+    """
+    <div class="custom-font">
+    <ul>
+        <li><strong>Competitor Selection</strong>: The first dropdown menu on the left-hand side enables you to select a competitor for <u>benchmarking</u> against Alliance Animal Health. Upon selection, the map displays both Alliance and the chosen competitor's hospitals across U.S. <strong><span style="color:red;"> Note: [Prototype] version ONLY incorporates Veterinary Practice Partner data for demonstration purposes.</span></strong></li>
+        <li><strong>Regional Segmentation</strong>: The second dropdown menu divides the U.S. map into <u>9</u> distinct regions from east to west, each highlighting unique veterinary service trends. Selecting a region allows you to <u>zoom in</u> and explore detailed insights specific to that area.</li>       
+        <li><strong>Population Density Overlay</strong>: The map features a blue gradient overlay, with dark blue representing regions of high population density and light blue indicating lower-density areas, reflecting <u>potential demand</u> for veterinary services.</li>
+        <li><strong>Metrics Display</strong>: Below the map, key metrics such as the total number of hospitals, number of accredited hospitals, average Google review ratings, and rankings are displayed for comparison between Alliance and the selected competitor.</li>
+    </ul>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
+
+
 
 # Load data
 us_density = pd.read_excel("us_density.xlsx")  # Ensure it has latitude, longitude, and density_category
@@ -259,6 +347,13 @@ vet_reviews_details = pd.read_pickle(r"vet_reviews_details.pkl")
 
 # Normalize the density values for visualization
 us_density["normalized_density"] = np.log1p(us_density["density_category"])
+
+
+# Check if the selected option has data available
+if options[selected_option]:
+    st.write(f"Displaying data for Alliance Animal Health and {selected_option}")
+else:
+    st.warning(f"### Data for {selected_option} is currently unavailable. [Prototype] version ONLY incorporates Veterinary Practice Partner data for demonstration purposes. Please switch back to Veterinary Practice Partner.")
 
 
 # Create the base map
@@ -345,8 +440,9 @@ fig.update_layout(
         showland=True,
         landcolor="white",  # Set land color to white
         showlakes=False,    # Optional: Disable lakes
-        showocean=False,    # Optional: Disable ocean
+        showocean=False,    # Optional: Disable ocean             
     ),
+    dragmode=False,  # Disable dragging/zooming
     title={
         "text": "US Veterinary Hospitals Presence based on Population Density",
         "x": 0.5,  # Center title
@@ -437,13 +533,13 @@ col1, col2 = st.columns(2)
 with col1:
     # Left-Hand Side Box: Alliance Animal Health Practitioners
     st.markdown(
-        "<h2 style='color: orange;'>Alliance Animal Health</h2>",
+        "<h2 style='color: orange;'>Alliance Animal Health - Metrics</h2>",
         unsafe_allow_html=True
     )
     
 with col2:
     st.markdown(
-        "<h2 style='color: purple;'>"+selected_option+"</h2>",
+        "<h2 style='color: purple;'>"+selected_option+" - Metrics</h2>",
         unsafe_allow_html=True
     )    
     
@@ -466,10 +562,10 @@ total_reviews_aa = vets_sum.loc[
 total_reviews_aa_formatted = f"{int(total_reviews_aa):,}"
 with col1:
     # Display the Information
-    st.markdown(f"### Total Hospitals #: {total_practitioners_aa}")
-    st.markdown(f"### Accredited Hospitals #: {total_accredited_aa}")
+    st.markdown(f"#### Total Hospitals #: {total_practitioners_aa}")
+    st.markdown(f"#### Accredited Hospitals #: {total_accredited_aa}")
     st.markdown(
-        f"### Google Rating / Reviews: {rating_aa:.2f} / {total_reviews_aa_formatted}"
+        f"#### Google Rating / Reviews: {rating_aa:.2f} / {total_reviews_aa_formatted}"
     )
 
 # 1. # Total Practitioners
@@ -493,14 +589,14 @@ total_reviews_comp_formatted = f"{int(total_reviews_comp):,}"
 
 with col2:
     # Display the Information
-    st.markdown(f"### {total_practitioners_comp}")
-    st.markdown(f"### {total_accredited_comp}")    
+    st.markdown(f"#### {total_practitioners_comp}")
+    st.markdown(f"#### {total_accredited_comp}")    
     st.markdown(
-        f"### {rating_comp:.2f} / {total_reviews_comp_formatted}"
+        f"#### {rating_comp:.2f} / {total_reviews_comp_formatted}"
     )
 
 
-st.markdown(f"### Rank all these {total_practitioners_aa} + {total_practitioners_comp} hospitals into 4 categories based on two criteria:")
+st.markdown(f"### Rank all these {total_practitioners_aa} + {total_practitioners_comp} hospitals into four categories based on two criteria:")
 # st.markdown(
 #     """
 #     <div class="custom-font">
@@ -518,7 +614,7 @@ st.markdown(
     """
     <div class="custom-font">
     <ul>
-        <li><strong>Criteria 1</strong>: The hospital has a Google rating, based on at least 100 reviews, ranking in the top 50% among all hospitals within Alliance and the selected competitor.</li>
+        <li><strong>Criteria 1</strong>: The hospital has a Google rating based on at least 50 reviews, ranking in the top 50% among all hospitals within Alliance and the selected competitor in the specified region.</li>
         <li><strong>Criteria 2</strong>: The hospital holds accreditation from the AAHA (American Animal Hospital Association).</li>       
         <li><strong>4 Categories</strong>: <strong>Tier 1</strong> - Meets both Criteria 1 and Criteria 2; <strong>Tier 2</strong> - Meets only Criteria 1; <strong>Tier 3</strong> - Meets only Criteria 2; <strong>Tier 4</strong> - Does not meet either criterion.</li>
     </ul>
@@ -627,6 +723,8 @@ if not vets_filtered.empty:
     with col3:
         #st.subheader("Alliance Animal Health Practitioner Ratings")
         # Create the pie chart with explicit category order
+        st.markdown("#### Among Alliance's hospitals,")
+
         pie_fig_aa = px.pie(
             pie_data_aa,
             names="Category",
@@ -701,10 +799,10 @@ if not comp_vets_filtered.empty:
     total_comp = len(comp_vets_filtered)
     pie_data_comp = {
         "Category": [
-            "Top50% & AAHA Accredited",
-            "Top50% & Not AAHA Accredited",
-            "Bottom50% & AAHA Accredited",
-            "Bottom50% & Not AAHA Accredited",
+                    "Tier 1",
+                    "Tier 2",
+                    "Tier 3",
+                    "Tier 4",
         ],
         "Count": [top50_comp_aa, top50_comp_no, bottom50_comp_aa, bottom50_comp_no],
         "Percentage": [
@@ -720,29 +818,35 @@ if not comp_vets_filtered.empty:
     
     with col4:
         # Create the pie chart with explicit category order
+        st.markdown(
+            f"#### Among the {selected_option}'s hospitals,"
+        )
+        
+
+        
         pie_fig_comp = px.pie(
             pie_data_comp,
             names="Category",
             values="Count",
             color="Category",
             color_discrete_map={
-                "Top50% & AAHA Accredited": "darkblue",
-                "Top50% & Not AAHA Accredited": "blue",
-                "Bottom50% & AAHA Accredited": "lightblue",
-                "Bottom50% & Not AAHA Accredited": "white",
+                "Tier 1": "darkblue",
+                "Tier 2": "blue",
+                "Tier 3": "lightblue",
+                "Tier 4": "white",
             },
             #title="Ratings & Accreditation Breakdown",
             category_orders={
                 "Category": [
-                    "Top50% & AAHA Accredited",
-                    "Top50% & Not AAHA Accredited",
-                    "Bottom50% & AAHA Accredited",
-                    "Bottom50% & Not AAHA Accredited",
+                    "Tier 1",
+                    "Tier 2",
+                    "Tier 3",
+                    "Tier 4",
                 ]
             },
         )
         # Hide the legend
-        pie_fig_comp.update_layout(showlegend=False)
+        #pie_fig_comp.update_layout(showlegend=False)
         st.plotly_chart(pie_fig_comp, use_container_width=True)
 else:
     details_mapping_comp = np.nan
@@ -751,7 +855,7 @@ else:
 st.markdown("---")  # Optional horizontal rule for separation
 
 # AI Analysis
-st.markdown("### Section III. OpenAI analysis of 100K+ reviews with improvement recommendations for Alliance vs. Competitor")
+st.markdown("### Section IV. OpenAI analyzes 100K+ reviews with improvement recommendations for Alliance vs. competitor in region level")
 
 
 vets_reviews_region_sum = pd.read_pickle(r"vets_reviews_region_sum.pkl")
@@ -764,7 +868,9 @@ if not filtered_df.empty:
     
     # Display the details using markdown
     #st.markdown(f"#### Based on customer reviews, is Alliance Animal Health better or worse than {selected_option}?")
-    st.markdown(f"#### OpenAI compares {total_reviews_aa_formatted} Google customer reviews of Alliance with {total_reviews_comp_formatted} reviews of {selected_option}, focusing on four key aspects:")
+    st.markdown(
+    f"#### For the specified region, OpenAI compares {total_reviews_aa_formatted} Google customer reviews of Alliance with {total_reviews_comp_formatted} reviews of {selected_option}, focusing on four key aspects. The assessment of Alliance's performance, benchmarked against {selected_option}, is summarized below:")
+
     me_judge, par, me_reason =  row['Medical Expertise'].partition('.')
     # Determine the color based on the value of me_judge
     if me_judge.strip() == "Worse":
@@ -836,16 +942,16 @@ st.markdown("---")  # Optional horizontal rule for separation
     
 
 # AI Analysis
-st.markdown("### Section IV: Deep-dive into individual hospital details with AI-driven insights from customer reviews")
+st.markdown("### Section V: Deep-dive into individual hospital details with AI-driven insights from customer reviews")
 
-st.markdown("#### Guidance:")
+st.markdown("#### User guide for this section:")
 st.markdown(
     """
     <div class="custom-font">
     <ul>
-        <li><strong>Review Individual Hospitals</strong>: Review and locate hospitals based on specific criteria, such as sorting by the lowest ratings.</li>        
-        <li><strong>Search Hospitals</strong>: Enter the name of the veterinary hospital you wish to investigate in the "Veterinary Hospital Search" box. The search supports fuzzy matching, so entering just the first few words of the name is sufficient. You can then select the exact hospital name from the dropdown menu below the search box.</li>       
-        <li><strong>Get Actionable Insights</strong>: The AI analyzes all customer reviews for the selected hospital, extracting key information such as common complaints, doctors associated with issues, recommendations, and doctors receiving praise.</li>    </ul>
+        <li><strong>Step 1 - Review Individual Hospitals</strong>: Explore and locate hospitals based on specific criteria, including filtering by tiers, sorting by ratings in the table, and more.</li>        
+        <li><strong>Step 2 - Search Hospitals</strong>: Enter the name of the veterinary hospital you wish to investigate in the "Veterinary Hospital Search" box. The search supports fuzzy matching, so entering just the first few words of the name is sufficient. You can then select the exact hospital name from the dropdown menu below the search box.</li>       
+        <li><strong>Step 3 - Get Insights Below</strong>:After selecting a hospital, the AI analyzes all customer reviews and extracts key information, including common complaints, doctors linked to issues, recommendations, and praise for specific doctors, which is displayed at the bottom of the dashboard.</li>    </ul>
     </div>
     """,
     unsafe_allow_html=True
@@ -867,7 +973,7 @@ if not pd.isna(details_mapping):
     with col5: 
         # Left-Hand Side Box: Alliance Animal Health Practitioners
         st.markdown(
-            "<h2 style='color: orange;'>Alliance Animal Health</h2>",
+            "<h3 style='color: orange;'>Alliance Animal Health - Individual Hospitals</h3>",
             unsafe_allow_html=True
         )
         # Ensure session state is initialized
@@ -892,7 +998,7 @@ if not pd.isna(details_mapping):
 if not pd.isna(details_mapping_comp):    
     with col6:  
         st.markdown(
-            "<h2 style='color: purple;'>"+selected_option+"</h2>",
+            "<h3 style='color: purple;'>"+selected_option+" - Individual Hospitals</h3>",
             unsafe_allow_html=True
         )    
         # Ensure session state is initialized
@@ -931,6 +1037,9 @@ matching_names = vet_reviews_details[
 # Define the default selection
 default_selection = "Affordable Animal Hospital-Compton, Compton, CA"
 
+# Sort the matching names alphabetically
+matching_names = sorted(matching_names) if matching_names else []
+
 # Check if the default selection is in the list of matching names
 if default_selection in matching_names:
     selected_name = st.selectbox(
@@ -949,7 +1058,7 @@ else:
 # Display details as markdown when a selection is made
 if selected_name and selected_name != "No matches found":
     #selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
-    selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == default_selection].iloc[0]
+    selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
     st.markdown(f"""
         ### OpenAI has extracted key insights from customer reviews for {selected_details['Veterinary Partner Name']}:
         <ul>
