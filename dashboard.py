@@ -329,7 +329,7 @@ st.markdown(
 # Load data
 us_density = pd.read_excel("us_density.xlsx")  # Ensure it has latitude, longitude, and density_category
 aa_partners = pd.read_excel("vets_partners_aa_google_reviews.xlsx")  # Ensure correct columns
-vet_reviews_details = pd.read_pickle(r"vet_reviews_details.pkl")
+vet_reviews_details = pd.read_pickle(r"vet_reviews_details_v2.pkl")
 
 # Cache data loading
 # @st.cache_data
@@ -610,6 +610,7 @@ st.markdown(f"### Rank all these {total_practitioners_aa} + {total_practitioners
 #     unsafe_allow_html=True
 # )
 
+
 st.markdown(
     """
     <div class="custom-font">
@@ -868,8 +869,15 @@ if not filtered_df.empty:
     
     # Display the details using markdown
     #st.markdown(f"#### Based on customer reviews, is Alliance Animal Health better or worse than {selected_option}?")
+    #st.markdown(f"#### For the specified region, OpenAI compares {total_reviews_aa_formatted} Google customer reviews of Alliance with {total_reviews_comp_formatted} reviews of {selected_option}, focusing on four key aspects. The assessment of Alliance's performance, benchmarked against {selected_option}, is summarized below:")
     st.markdown(
-    f"#### For the specified region, OpenAI compares {total_reviews_aa_formatted} Google customer reviews of Alliance with {total_reviews_comp_formatted} reviews of {selected_option}, focusing on four key aspects. The assessment of Alliance's performance, benchmarked against {selected_option}, is summarized below:")
+        f"""
+        <div class="custom-font">
+            <strong>For the specified region</strong>, OpenAI compares <strong>{total_reviews_aa_formatted}</strong> Google customer reviews of Alliance with <strong>{total_reviews_comp_formatted}</strong> reviews of {selected_option}, focusing on <strong>four key aspects</strong>. The assessment of Alliance's performance, benchmarked against {selected_option}, is summarized below:
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     me_judge, par, me_reason =  row['Medical Expertise'].partition('.')
     # Determine the color based on the value of me_judge
@@ -942,21 +950,38 @@ st.markdown("---")  # Optional horizontal rule for separation
     
 
 # AI Analysis
-st.markdown("### Section V: Deep-dive into individual hospital details with AI-driven insights from customer reviews")
+st.markdown("### Section V: Deep-dive into Alliance and competitor hospital branches with AI insights from reviews")
+# st.markdown("#### User guide for this section:")
+# st.markdown(
+#     """
+#     <div class="custom-font">
+#     <ul>
+#         <li><strong>Step 1 - Review Branches</strong>: Explore and locate branches of both companies based on specific criteria, including filtering by tiers, sorting by ratings in the table, and more.</li>
+#         <li><strong>Step 2 - Select Companies</strong>: Choose either Alliance or the competitor.</li>       
+#         <li><strong>Step 3 - Search Branches</strong>: Enter the name of the veterinary hospital branch you wish to investigate in the "Veterinary Hospital Branch Search" box. The search supports fuzzy matching, so entering just the first few words of the name is sufficient. You can then select the exact hospital name from the dropdown menu below the search box.</li>       
+#         <li><strong>Step 4 - Get Insights Below</strong>:After selecting a branch, the AI analyzes all customer reviews and extracts key information, including common complaints, doctors linked to issues, recommendations, and praise for specific doctors, which is displayed at the bottom of the dashboard.</li>    </ul>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
 
-st.markdown("#### User guide for this section:")
 st.markdown(
     """
     <div class="custom-font">
-    <ul>
-        <li><strong>Step 1 - Review Individual Hospitals</strong>: Explore and locate hospitals based on specific criteria, including filtering by tiers, sorting by ratings in the table, and more.</li>        
-        <li><strong>Step 2 - Search Hospitals</strong>: Enter the name of the veterinary hospital you wish to investigate in the "Veterinary Hospital Search" box. The search supports fuzzy matching, so entering just the first few words of the name is sufficient. You can then select the exact hospital name from the dropdown menu below the search box.</li>       
-        <li><strong>Step 3 - Get Insights Below</strong>:After selecting a hospital, the AI analyzes all customer reviews and extracts key information, including common complaints, doctors linked to issues, recommendations, and praise for specific doctors, which is displayed at the bottom of the dashboard.</li>    </ul>
-    </div>
+        In this section, you'll explore and analyze various hospital branches of Alliance Animal Health and its competitors. Leveraging AI-generated analyses of customer reviews, you'll gain valuable insights into branch performance, customer satisfaction, and areas for improvement. This process involves reviewing branch details, selecting specific companies, searching for particular branches, and accessing AI-extracted key findings to inform strategic decisions.
+   </div>
     """,
     unsafe_allow_html=True
 )
-
+st.markdown("")
+st.markdown(
+    """
+    <div class="custom-font">
+        <strong>Step 1 - Review Branches</strong>: Explore and locate branches of both companies based on specific criteria, including filtering by tiers, sorting by ratings in the table, and more.
+   </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # Create Columns for Side-by-Side Layout
@@ -973,7 +998,7 @@ if not pd.isna(details_mapping):
     with col5: 
         # Left-Hand Side Box: Alliance Animal Health Practitioners
         st.markdown(
-            "<h3 style='color: orange;'>Alliance Animal Health - Individual Hospitals</h3>",
+            f"<h3 style='color: orange;'>Alliance Animal Health - {total_practitioners_aa} Branches</h3>",
             unsafe_allow_html=True
         )
         # Ensure session state is initialized
@@ -992,13 +1017,13 @@ if not pd.isna(details_mapping):
         if (st.session_state["selected_category"]):
             category = st.session_state["selected_category"]
             st.write(f"Details for {category}:")
-            df_aa = details_mapping[tier_map[category]]
-            st.dataframe(df_aa)
+            df_aa = details_mapping[tier_map[category]].rename(columns={"Veterinary Partner Name":"Branch Name"})
+            st.dataframe(df_aa.sort_values(by='Rating'))
 
 if not pd.isna(details_mapping_comp):    
     with col6:  
         st.markdown(
-            "<h3 style='color: purple;'>"+selected_option+" - Individual Hospitals</h3>",
+            "<h3 style='color: purple;'>"+selected_option+ f" - {total_practitioners_comp} Branches</h3>",
             unsafe_allow_html=True
         )    
         # Ensure session state is initialized
@@ -1017,20 +1042,40 @@ if not pd.isna(details_mapping_comp):
         if (st.session_state["selected_category"]):
             category = st.session_state["selected_category"]
             st.write(f"Details for {category}:")
-            st.dataframe(details_mapping_comp[tier_map[category]])
+            df_comp = details_mapping_comp[tier_map[category]].rename(columns={"Veterinary Partner Name":"Branch Name"})
+            st.dataframe(df_comp.sort_values(by='Rating'))
 
 # Example data
-vet_reviews_details.rename(columns={"Hospital":"Veterinary Partner Name"},inplace=True)
+vet_reviews_details.rename(columns={"Hospital":"Branch Name"},inplace=True)
+unique_companies = list(vet_reviews_details["Company"].unique())
+# Create a selectbox for company selection
+st.markdown(
+    """
+    <div class="custom-font">
+        <strong>Step 2 - Choose either Alliance Animal Health or the competitor</strong>
+   </div>
+    """,
+    unsafe_allow_html=True
+)
+selected_company = st.selectbox("For further deep-dive below", unique_companies)
+vet_reviews_details = vet_reviews_details[vet_reviews_details["Company"]==selected_company]
 # Search Functionality
-st.markdown("#### Veterinary Hospital Search")
-
+#st.markdown("#### Veterinary Hospital Branch Search: Type the branch name for AI insights on customer reivews")
+st.markdown(
+    """
+    <div class="custom-font">
+        <strong>Step 3 - Hospital Branch Search</strong>: Type the branch name to receive AI-generated analyses of customer reviews.
+   </div>
+    """,
+    unsafe_allow_html=True
+)
 # Auto-suggestion search box
-search_input = st.text_input("Fuzzy-Search Veterinary Hospital Name", value="", placeholder="Start typing to search. Just the first few words of the name is sufficient...")
+search_input = st.text_input("Fuzzy-Search Branch Name", value="", placeholder="Start typing to search. Just the first few words of the name is sufficient...")
 
 # Filter potential matches based on input
 matching_names = vet_reviews_details[
-    vet_reviews_details["Veterinary Partner Name"].str.contains(search_input, case=False, na=False)
-]["Veterinary Partner Name"].tolist()
+    vet_reviews_details["Branch Name"].str.contains(search_input, case=False, na=False)
+]["Branch Name"].tolist()
 
 # Dropdown to select from matching results
 #selected_name = st.selectbox("Select the exact hospital name from the dropdown menu", options=matching_names if matching_names else ["No matches found"])
@@ -1043,7 +1088,7 @@ matching_names = sorted(matching_names) if matching_names else []
 # Check if the default selection is in the list of matching names
 if default_selection in matching_names:
     selected_name = st.selectbox(
-        "Select the exact hospital name from the dropdown menu",
+        "Select the exact hospital name that matches the fuzzy-search from the dropdown menu",
         options=matching_names if matching_names else ["No matches found"],
         index=matching_names.index(default_selection)
     )
@@ -1055,22 +1100,66 @@ else:
 
 
 
+st.markdown(
+    """
+    <div class="custom-font">
+        <strong>Step 4 - Access AI-Generated Insights</strong>: OpenAI has analyzed the branch's customer reviews to extract key findings.
+   </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
 # Display details as markdown when a selection is made
 if selected_name and selected_name != "No matches found":
     #selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
-    selected_details = vet_reviews_details[vet_reviews_details["Veterinary Partner Name"] == selected_name].iloc[0]
-    st.markdown(f"""
-        ### OpenAI has extracted key insights from customer reviews for {selected_details['Veterinary Partner Name']}:
-        <ul>
-            <li><strong style="font-size:21px;">Key Complaints:</strong> <span style="font-size:21px;">{selected_details['Key Complaints']}</span></li>
-            <li><strong style="font-size:21px;">Doctors with Complaints:</strong> <span style="font-size:21px;">{selected_details['Doctors with Complaints']}</span></li>
-            <li><strong style="font-size:21px;">Key Recommendations:</strong> <span style="font-size:21px;">{selected_details['Key Recommendations']}</span></li>
-            <li><strong style="font-size:21px;">Doctors Praised:</strong> <span style="font-size:21px;">{selected_details['Doctors Praised']}</span></li>
-        </ul>
-    """, unsafe_allow_html=True)
-
-
+    selected_details = vet_reviews_details[vet_reviews_details["Branch Name"] == selected_name].iloc[0]
         
+    # st.markdown(f"""
+    #     <ul>
+    #         <li><strong style="font-size:21px;">Key Complaints:</strong> <span style="font-size:21px;">{selected_details['Key Complaints']}</span></li>
+    #         <li><strong style="font-size:21px;">Doctors with Complaints:</strong> <span style="font-size:21px;">{selected_details['Doctors with Complaints']}</span></li>
+    #         <li><strong style="font-size:21px;">Key Recommendations:</strong> <span style="font-size:21px;">{selected_details['Key Recommendations']}</span></li>
+    #         <li><strong style="font-size:21px;">Doctors Praised:</strong> <span style="font-size:21px;">{selected_details['Doctors Praised']}</span></li>
+    #     </ul>
+    # """, unsafe_allow_html=True)
+    
+    # Inject custom CSS to add indentation
+    st.markdown(
+        """
+        <style>
+        .indented-content {
+            margin-left: 20px; /* Adjust the value as needed */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-
+    # st.markdown(
+    #     f"""
+    #     <div class="custom-font">
+    #         <strong>For {selected_company}</strong>, below are key customer review AI insights of branch - <strong>{selected_details['Branch Name']}</strong>:
+    #    </div>
+    #     """,
+    #     unsafe_allow_html=True
+    # )
+    # Display the indented list
+    st.markdown(
+        f"""
+        <div class="indented-content">
+            <strong style="font-size:21px;">For {selected_company}</strong><span style="font-size:21px;">, below are key customer review AI insights of branch - </span><strong style="font-size:21px;">{selected_details['Branch Name']}</strong>: 
+            <ul>
+                <li><strong style="font-size:21px;">Key Complaints:</strong> <span style="font-size:21px;">{selected_details['Key Complaints']}</span></li>
+                <li><strong style="font-size:21px;">Doctors with Complaints:</strong> <span style="font-size:21px;">{selected_details['Doctors with Complaints']}</span></li>
+                <li><strong style="font-size:21px;">Key Recommendations:</strong> <span style="font-size:21px;">{selected_details['Key Recommendations']}</span></li>
+                <li><strong style="font-size:21px;">Doctors Praised:</strong> <span style="font-size:21px;">{selected_details['Doctors Praised']}</span></li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+        
 
