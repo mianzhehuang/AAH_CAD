@@ -168,7 +168,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("etl_vet_hospitals.drawio.png", use_column_width=True) #caption="Data Pipeline Diagram",
+st.image("etl_vet_hospitals.drawio.png", use_container_width=True) #caption="Data Pipeline Diagram",
 
 
 st.markdown("---") 
